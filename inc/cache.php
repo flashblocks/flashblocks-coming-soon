@@ -57,7 +57,13 @@ add_action( 'update_option_fb_coming_soon_settings', function ( $old_value, $new
 	if ( $old_status !== $new_status || $old_page !== $new_page ) {
 		global $KinstaCache;
 		if ( ! empty( $KinstaCache ) && isset( $KinstaCache->kinsta_cache_purge ) ) {
-			$KinstaCache->kinsta_cache_purge->initiate_purge();
+			$purge = $KinstaCache->kinsta_cache_purge;
+			if ( method_exists( $purge, 'purge_complete_caches' ) ) {
+				$purge->purge_complete_caches( true );
+			} else {
+				// Fallback to initiate_purge with dummy ID if needed.
+				$purge->initiate_purge( 0 );
+			}
 		}
 
 		if ( class_exists( 'autoptimizeCache' ) ) {
