@@ -13,14 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Add "Coming Soon" column to public post types.
  */
 add_action( 'admin_init', function () {
-	$settings = get_option( 'fb_coming_soon_settings', [] );
-	$status   = $settings['status'] ?? 'off';
-
-	// Only show the column if we are in per-page mode.
-	if ( 'per-page' !== $status ) {
-		return;
-	}
-
 	foreach ( get_post_types( [ 'public' => true ] ) as $post_type ) {
 		$col_hook    = $post_type === 'page' ? 'manage_pages_columns' : "manage_{$post_type}_posts_columns";
 		$custom_hook = "manage_{$post_type}_posts_custom_column";
