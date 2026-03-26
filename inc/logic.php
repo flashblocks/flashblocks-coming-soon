@@ -13,7 +13,7 @@ add_action( 'template_redirect', function () {
 	if (
 		is_user_logged_in() || is_admin() || wp_doing_ajax() || wp_doing_cron()
 		|| defined( 'REST_REQUEST' ) || defined( 'XMLRPC_REQUEST' )
-		|| isset( $_GET['preview'] ) || is_404()
+		|| isset( $_GET['preview'] ) || isset( $_GET['preview-on'] ) || is_404()
 		|| isset( $_COOKIE['fb_preview_mode'] )
 		|| ! is_singular()
 	) {
