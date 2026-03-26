@@ -17,7 +17,11 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {
 		return;
 	}
 
-	$settings = get_option( 'fb_coming_soon_settings' );
+	$settings = get_option( 'fb_coming_soon_settings', [
+		'status'  => 'off',
+		'page_id' => 0,
+		'mode'    => 'redirect',
+	] );
 	$status   = $settings['status'] ?? 'off';
 	$post_id  = defined( 'FB_ORIGINAL_POST_ID' ) ? FB_ORIGINAL_POST_ID : get_the_ID();
 
@@ -57,7 +61,11 @@ add_action( 'admin_post_fb_toggle_coming_soon', function () {
 
 	check_admin_referer( 'fb_toggle_coming_soon_' . $post_id );
 
-	$settings = get_option( 'fb_coming_soon_settings' );
+	$settings = get_option( 'fb_coming_soon_settings', [
+		'status'  => 'off',
+		'page_id' => 0,
+		'mode'    => 'redirect',
+	] );
 	$status   = $settings['status'] ?? 'off';
 
 	if ( 'sitewide' === $status ) {
@@ -69,10 +77,10 @@ add_action( 'admin_post_fb_toggle_coming_soon', function () {
 		$is_on = get_post_meta( $post_id, FB_COMING_SOON_META, true ) === '1';
 		update_post_meta( $post_id, FB_COMING_SOON_META, $is_on ? '0' : '1' );
 	} else {
-		// Currently Off: Default to Site-wide or Per-page?
-		// Let's default to Sitewide if they click it from Off.
-		$settings['status'] = 'sitewide';
+		// Currently Off: Default to Per-page when clicking the toggle on a specific page.
+		$settings['status'] = 'per-page';
 		update_option( 'fb_coming_soon_settings', $settings );
+		update_post_meta( $post_id, FB_COMING_SOON_META, '1' );
 	}
 
 	wp_safe_redirect( get_permalink( $post_id ) );

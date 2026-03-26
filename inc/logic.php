@@ -10,13 +10,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'template_redirect', function () {
-	$settings = get_option( 'fb_coming_soon_settings' );
+	$settings = get_option( 'fb_coming_soon_settings', [
+		'status'  => 'off',
+		'page_id' => 0,
+		'mode'    => 'redirect',
+	] );
+
 	$status   = $settings['status'] ?? 'off';
 	$mode     = $settings['mode'] ?? 'redirect';
 	$source_page_id = (int) ( $settings['page_id'] ?? 0 );
 
 	if (
-		is_user_logged_in() || is_admin() || wp_doing_ajax() || wp_doing_cron()
+		'off' === $status || ! $source_page_id
+		|| is_user_logged_in() || is_admin() || wp_doing_ajax() || wp_doing_cron()
 		|| defined( 'REST_REQUEST' ) || defined( 'XMLRPC_REQUEST' )
 		|| isset( $_GET['preview'] ) || isset( $_GET['preview-on'] ) || is_404()
 		|| isset( $_COOKIE['fb_preview_mode'] )
