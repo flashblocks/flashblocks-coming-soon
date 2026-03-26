@@ -13,7 +13,10 @@ The URL does not change, so visitors can bookmark the page and return when it go
 
 Search engine bots receive a **503 status** with a `Retry-After: 604800` header (one week), telling them the page is temporarily unavailable and to re-crawl later. Human visitors get a normal 200. A `noindex, nofollow` meta tag is also injected as a fallback for bots that ignore status codes.
 
-The plugin is fully compatible with **Block Themes (FSE)**. It handles template loading correctly even when the theme does not have traditional PHP template files, ensuring that the "Coming Soon" content is rendered within the theme's header and footer.
+The plugin is fully compatible with **Block Themes (FSE)** and supports two modes of operation, configurable via a constant at the top of the plugin file:
+
+- `define( 'FB_COMING_SOON_MODE', 'redirect' )` (Default) — Performs a **307 Temporary Redirect** to the `/coming-soon/` page. This is the most robust method for sites with heavy server-side caching.
+- `define( 'FB_COMING_SOON_MODE', 'replace' )` — Masks the content at the original URL. Useful for preserving bookmarks, but may require careful cache management on some servers.
 
 Logged-in users always see the real page regardless of the toggle.
 

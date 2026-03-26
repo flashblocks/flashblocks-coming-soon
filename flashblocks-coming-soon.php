@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'FB_COMING_SOON_META', '_fb_coming_soon' );
+define( 'FB_COMING_SOON_MODE', 'redirect' ); // 'redirect' or 'replace'
 
 // ---------------------------------------------------------------------------
 // Meta registration
@@ -67,10 +68,6 @@ add_action( 'template_redirect', function () {
 		return;
 	}
 
-	if ( ! defined( 'FB_ORIGINAL_POST_ID' ) ) {
-		define( 'FB_ORIGINAL_POST_ID', get_the_ID() );
-	}
-
 	$coming_soon_page = get_page_by_path( 'coming-soon' );
 
 	if ( ! $coming_soon_page ) {
@@ -80,6 +77,15 @@ add_action( 'template_redirect', function () {
 		nocache_headers();
 		include get_404_template();
 		exit;
+	}
+
+	if ( FB_COMING_SOON_MODE === 'redirect' ) {
+		wp_redirect( get_permalink( $coming_soon_page->ID ), 307 );
+		exit;
+	}
+
+	if ( ! defined( 'FB_ORIGINAL_POST_ID' ) ) {
+		define( 'FB_ORIGINAL_POST_ID', get_the_ID() );
 	}
 
 	// Override the global post so template tags render coming-soon content.
