@@ -36,6 +36,8 @@ add_action( 'template_redirect', function () {
 	}
 
 	if ( FB_COMING_SOON_MODE === 'redirect' ) {
+		nocache_headers();
+		header( 'X-Accel-Expires: 0' );
 		wp_redirect( get_permalink( $coming_soon_page->ID ), 307 );
 		exit;
 	}
@@ -70,6 +72,7 @@ add_action( 'template_redirect', function () {
 		header( 'Retry-After: ' . ( WEEK_IN_SECONDS ) );
 	}
 
+	header( 'X-Accel-Expires: 0' );
 	nocache_headers();
 
 	// Inject noindex so search engines don't index coming-soon content at this URL.

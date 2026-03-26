@@ -31,13 +31,9 @@ function fb_clear_coming_soon_cache( $meta_id, $post_id, $meta_key ) {
 	}
 
 	// Support for Kinsta if active.
-	if ( class_exists( 'KinstaCache' ) ) {
-		if ( method_exists( 'KinstaCache', 'get_instance' ) ) {
-			$kinsta_cache = KinstaCache::get_instance();
-			if ( method_exists( $kinsta_cache, 'kinsta_cache_purge_post' ) ) {
-				$kinsta_cache->kinsta_cache_purge_post( $post_id );
-			}
-		}
+	global $KinstaCache;
+	if ( ! empty( $KinstaCache ) && isset( $KinstaCache->kinsta_cache_purge ) ) {
+		$KinstaCache->kinsta_cache_purge->initiate_purge( $post_id );
 	}
 }
 add_action( 'added_post_meta', 'fb_clear_coming_soon_cache', 10, 3 );

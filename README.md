@@ -30,16 +30,6 @@ Logged-in users always see the real page regardless of the toggle.
 
 Add `?preview-on` to any URL to set a cookie (`fb_preview_mode`) that bypasses the coming-soon display for one month. Useful for sharing previews with clients without logging them in.
 
-## Migration
-
-If migrating from the previous system that used `comment_status = open` to control visibility, trigger the one-time migration by visiting:
-
-```
-/wp-admin/?fb_run_migration=1
-```
-
-Requires `manage_options` capability. The migration finds all posts/pages with `comment_status = open`, sets `_fb_coming_soon = 1` on them, and resets their comment status to `closed`. It will report how many posts were updated, and will not run again once complete.
-
 ## Build
 
 ```bash

@@ -24,7 +24,7 @@ if (! defined('ABSPATH')) {
  * @package flashblocks
  */
 define('FB_COMING_SOON_META', '_fb_coming_soon');
-define('FB_COMING_SOON_MODE', 'redirect'); // 'redirect' or 'replace'
+define('FB_COMING_SOON_MODE', 'replace'); // 'redirect' or 'replace'
 
 
 // ---------------------------------------------------------------------------
@@ -37,4 +37,3 @@ require_once __DIR__ . '/inc/logic.php';
 require_once __DIR__ . '/inc/cache.php';
 require_once __DIR__ . '/inc/admin-bar.php';
 require_once __DIR__ . '/inc/admin-columns.php';
-require_once __DIR__ . '/inc/migration.php';
