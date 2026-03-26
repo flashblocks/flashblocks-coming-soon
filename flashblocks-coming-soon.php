@@ -37,3 +37,4 @@ require_once __DIR__ . '/inc/logic.php';
 require_once __DIR__ . '/inc/cache.php';
 require_once __DIR__ . '/inc/admin-bar.php';
 require_once __DIR__ . '/inc/admin-columns.php';
+require_once __DIR__ . '/inc/bulk-edit.php';
