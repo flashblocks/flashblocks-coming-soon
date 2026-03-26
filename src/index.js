@@ -21,7 +21,7 @@ function ComingSoonPanel() {
 			title="Coming Soon"
 		>
 			<ToggleControl
-				label={ isOn ? 'On — page redirects to coming soon' : 'Off — page is public' }
+				label={ isOn ? 'On — showing coming soon page' : 'Off — page is public' }
 				checked={ isOn }
 				onChange={ ( value ) =>
 					setMeta( { ...meta, [ META_KEY ]: value ? '1' : '0' } )
