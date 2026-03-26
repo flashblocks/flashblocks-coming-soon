@@ -49,7 +49,7 @@ add_action( 'template_redirect', function () {
 }, 1 );
 
 // ---------------------------------------------------------------------------
-// Redirect
+// Coming soon — render coming-soon page content at the current URL
 // ---------------------------------------------------------------------------
 
 add_action( 'template_redirect', function () {
@@ -69,12 +69,7 @@ add_action( 'template_redirect', function () {
 
 	$coming_soon_page = get_page_by_path( 'coming-soon' );
 
-	if ( $coming_soon_page ) {
-		if ( ! is_page( 'coming-soon' ) ) {
-			wp_redirect( get_permalink( $coming_soon_page ), 302 );
-			exit;
-		}
-	} else {
+	if ( ! $coming_soon_page ) {
 		global $wp_query;
 		$wp_query->set_404();
 		status_header( 404 );
@@ -82,6 +77,35 @@ add_action( 'template_redirect', function () {
 		include get_404_template();
 		exit;
 	}
+
+	// Override the global post so template tags render coming-soon content.
+	global $post, $wp_query;
+	$post            = get_post( $coming_soon_page->ID );
+	$wp_query->post  = $post;
+	setup_postdata( $post );
+
+	// Tell bots this is temporarily unavailable and to re-crawl in one week.
+	$is_bot = isset( $_SERVER['HTTP_USER_AGENT'] )
+		&& preg_match( '/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT'] );
+
+	if ( $is_bot ) {
+		status_header( 503 );
+		header( 'Retry-After: ' . ( WEEK_IN_SECONDS ) );
+	}
+
+	// Inject noindex so search engines don't index coming-soon content at this URL.
+	add_action( 'wp_head', function () {
+		echo '<meta name="robots" content="noindex, nofollow">' . "\n";
+	}, 1 );
+
+	// Swap in the coming-soon page's template file.
+	add_filter( 'template_include', function () use ( $coming_soon_page ) {
+		$slug = get_page_template_slug( $coming_soon_page->ID );
+		if ( $slug && ( $t = locate_template( $slug ) ) ) {
+			return $t;
+		}
+		return locate_template( [ 'page.php', 'singular.php', 'index.php' ] );
+	} );
 } );
 
 // ---------------------------------------------------------------------------

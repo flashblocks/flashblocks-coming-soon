@@ -6,10 +6,14 @@ Per-page coming soon toggle. When active on a page, logged-out visitors are redi
 
 Uses a post meta key `_fb_coming_soon` instead of comment status or post visibility. This keeps the toggle explicit and independent of any other WordPress features.
 
-- `_fb_coming_soon = 1` — coming soon is **on**, page redirects
+- `_fb_coming_soon = 1` — coming soon is **on**, page renders coming-soon content at the real URL
 - `_fb_coming_soon = 0` (or not set) — coming soon is **off**, page is public
 
-Logged-in users always see the page regardless of the toggle.
+The URL does not change, so visitors can bookmark the page and return when it goes live.
+
+Search engine bots receive a **503 status** with a `Retry-After: 604800` header (one week), telling them the page is temporarily unavailable and to re-crawl later. Human visitors get a normal 200. A `noindex, nofollow` meta tag is also injected as a fallback for bots that ignore status codes.
+
+Logged-in users always see the real page regardless of the toggle.
 
 ## Toggling
 
