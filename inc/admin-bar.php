@@ -22,7 +22,14 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {
 		'page_id' => 0,
 		'mode'    => 'redirect',
 	] );
-	$status   = $settings['status'] ?? 'off';
+
+	$status = $settings['status'] ?? 'off';
+
+	// If disabled globally, don't show the toggle.
+	if ( 'off' === $status ) {
+		return;
+	}
+
 	$post_id  = defined( 'FB_ORIGINAL_POST_ID' ) ? FB_ORIGINAL_POST_ID : get_the_ID();
 
 	// Determine if Coming Soon is currently active for this page.
