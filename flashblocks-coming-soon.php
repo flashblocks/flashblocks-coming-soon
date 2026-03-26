@@ -24,13 +24,13 @@ if (! defined('ABSPATH')) {
  * @package flashblocks
  */
 define('FB_COMING_SOON_META', '_fb_coming_soon');
-define('FB_COMING_SOON_MODE', 'replace'); // 'redirect' or 'replace'
 
 
 // ---------------------------------------------------------------------------
 // Modular Includes
 // ---------------------------------------------------------------------------
 
+require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/meta.php';
 require_once __DIR__ . '/inc/preview.php';
 require_once __DIR__ . '/inc/logic.php';

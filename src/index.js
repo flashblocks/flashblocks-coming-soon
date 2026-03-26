@@ -7,6 +7,12 @@ import { useSelect } from '@wordpress/data';
 const META_KEY = '_fb_coming_soon';
 
 function ComingSoonPanel() {
+	const status = window.fbComingSoon?.settings?.status || 'off';
+
+	if ( status !== 'per-page' ) {
+		return null;
+	}
+
 	const postType = useSelect(
 		( select ) => select( 'core/editor' ).getCurrentPostType(),
 		[]

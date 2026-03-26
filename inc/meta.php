@@ -44,4 +44,8 @@ add_action( 'enqueue_block_editor_assets', function () {
 		$asset['dependencies'],
 		$asset['version']
 	);
+
+	wp_localize_script( 'flashblocks-coming-soon-editor', 'fbComingSoon', [
+		'settings' => get_option( 'fb_coming_soon_settings' ),
+	] );
 } );

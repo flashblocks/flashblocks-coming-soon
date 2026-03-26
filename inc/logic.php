@@ -10,6 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'template_redirect', function () {
+	$settings = get_option( 'fb_coming_soon_settings' );
+	$status   = $settings['status'] ?? 'off';
+	$mode     = $settings['mode'] ?? 'redirect';
+	$source_page_id = (int) ( $settings['page_id'] ?? 0 );
+
 	if (
 		is_user_logged_in() || is_admin() || wp_doing_ajax() || wp_doing_cron()
 		|| defined( 'REST_REQUEST' ) || defined( 'XMLRPC_REQUEST' )
@@ -20,11 +25,27 @@ add_action( 'template_redirect', function () {
 		return;
 	}
 
-	if ( get_post_meta( get_the_ID(), FB_COMING_SOON_META, true ) !== '1' ) {
+	// Determine if the current page should be restricted.
+	$is_restricted = false;
+
+	if ( 'sitewide' === $status ) {
+		// Site-wide mode: restricted unless it's the source page itself.
+		if ( (int) get_the_ID() !== $source_page_id ) {
+			$is_restricted = true;
+		}
+	} elseif ( 'per-page' === $status ) {
+		// Per-page mode: check the meta toggle.
+		if ( get_post_meta( get_the_ID(), FB_COMING_SOON_META, true ) === '1' ) {
+			$is_restricted = true;
+		}
+	}
+
+	if ( ! $is_restricted ) {
 		return;
 	}
 
-	$coming_soon_page = get_page_by_path( 'coming-soon' );
+	// Get the source page for "Coming Soon" content.
+	$coming_soon_page = $source_page_id ? get_post( $source_page_id ) : null;
 
 	if ( ! $coming_soon_page ) {
 		global $wp_query;
@@ -35,7 +56,7 @@ add_action( 'template_redirect', function () {
 		exit;
 	}
 
-	if ( FB_COMING_SOON_MODE === 'redirect' ) {
+	if ( 'redirect' === $mode ) {
 		nocache_headers();
 		header( 'X-Accel-Expires: 0' );
 		wp_redirect( get_permalink( $coming_soon_page->ID ), 307 );
