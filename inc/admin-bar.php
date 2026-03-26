@@ -64,7 +64,7 @@ add_action( 'wp_head', function () {
 	}
 	?>
 	<style>
-		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon { color: #d63638 !important; margin-top: 9px !important; }
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon:before { color: #d63638 !important; top: 4px !important; }
 	</style>
 	<?php
 } );
@@ -72,7 +72,7 @@ add_action( 'wp_head', function () {
 add_action( 'admin_head', function () {
 	?>
 	<style>
-		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon { color: #d63638 !important; margin-top: 9px !important; }
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon:before { color: #d63638 !important; top: 4px !important; }
 	</style>
 	<?php
 } );
