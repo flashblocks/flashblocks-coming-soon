@@ -67,6 +67,10 @@ add_action( 'template_redirect', function () {
 		return;
 	}
 
+	if ( ! defined( 'FB_ORIGINAL_POST_ID' ) ) {
+		define( 'FB_ORIGINAL_POST_ID', get_the_ID() );
+	}
+
 	$coming_soon_page = get_page_by_path( 'coming-soon' );
 
 	if ( ! $coming_soon_page ) {
@@ -104,6 +108,8 @@ add_action( 'template_redirect', function () {
 		header( 'Retry-After: ' . ( WEEK_IN_SECONDS ) );
 	}
 
+	nocache_headers();
+
 	// Inject noindex so search engines don't index coming-soon content at this URL.
 	add_action( 'wp_head', function () {
 		echo '<meta name="robots" content="noindex, nofollow">' . "\n";
@@ -132,14 +138,14 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {
 		return;
 	}
 
-	$post   = get_post();
-	$is_on  = get_post_meta( $post->ID, FB_COMING_SOON_META, true ) === '1';
-	$label  = $is_on ? 'Coming Soon On' : 'Coming Soon Off';
-	$toggle = $is_on ? '0' : '1';
+	$post_id = defined( 'FB_ORIGINAL_POST_ID' ) ? FB_ORIGINAL_POST_ID : get_the_ID();
+	$is_on   = get_post_meta( $post_id, FB_COMING_SOON_META, true ) === '1';
+	$label   = $is_on ? 'Coming Soon On' : 'Coming Soon Off';
+	$toggle  = $is_on ? '0' : '1';
 
 	$url = wp_nonce_url(
-		admin_url( 'admin-post.php?action=fb_toggle_coming_soon&post_id=' . $post->ID . '&value=' . $toggle ),
-		'fb_toggle_coming_soon_' . $post->ID
+		admin_url( 'admin-post.php?action=fb_toggle_coming_soon&post_id=' . $post_id . '&value=' . $toggle ),
+		'fb_toggle_coming_soon_' . $post_id
 	);
 
 	$wp_admin_bar->add_node( [
@@ -164,6 +170,19 @@ add_action( 'admin_post_fb_toggle_coming_soon', function () {
 	check_admin_referer( 'fb_toggle_coming_soon_' . $post_id );
 
 	update_post_meta( $post_id, FB_COMING_SOON_META, $value );
+
+	// Clear caches.
+	clean_post_cache( $post_id );
+
+	// Support for WP Rocket if active.
+	if ( function_exists( 'rocket_clean_post' ) ) {
+		rocket_clean_post( $post_id );
+	}
+
+	// Support for Autoptimize if active.
+	if ( class_exists( 'autoptimizeCache' ) ) {
+		\autoptimizeCache::clearall();
+	}
 
 	wp_safe_redirect( get_permalink( $post_id ) );
 	exit;
