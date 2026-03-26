@@ -82,6 +82,17 @@ add_action( 'template_redirect', function () {
 	global $post, $wp_query;
 	$post            = get_post( $coming_soon_page->ID );
 	$wp_query->post  = $post;
+	$wp_query->posts = [ $post ];
+	$wp_query->post_count = 1;
+	$wp_query->queried_object = $post;
+	$wp_query->queried_object_id = $post->ID;
+	$wp_query->is_singular = true;
+	$wp_query->is_page = true;
+	$wp_query->is_home = false;
+	$wp_query->is_front_page = false;
+	$wp_query->is_archive = false;
+	$wp_query->is_404 = false;
+
 	setup_postdata( $post );
 
 	// Tell bots this is temporarily unavailable and to re-crawl in one week.
@@ -99,12 +110,16 @@ add_action( 'template_redirect', function () {
 	}, 1 );
 
 	// Swap in the coming-soon page's template file.
-	add_filter( 'template_include', function () use ( $coming_soon_page ) {
+	add_filter( 'template_include', function ( $template ) use ( $coming_soon_page ) {
 		$slug = get_page_template_slug( $coming_soon_page->ID );
 		if ( $slug && ( $t = locate_template( $slug ) ) ) {
 			return $t;
 		}
-		return locate_template( [ 'page.php', 'singular.php', 'index.php' ] );
+		$fallback = locate_template( [ 'page.php', 'singular.php', 'index.php' ] );
+		if ( $fallback ) {
+			return $fallback;
+		}
+		return $template;
 	} );
 } );
 

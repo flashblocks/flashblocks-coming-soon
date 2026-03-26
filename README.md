@@ -13,6 +13,8 @@ The URL does not change, so visitors can bookmark the page and return when it go
 
 Search engine bots receive a **503 status** with a `Retry-After: 604800` header (one week), telling them the page is temporarily unavailable and to re-crawl later. Human visitors get a normal 200. A `noindex, nofollow` meta tag is also injected as a fallback for bots that ignore status codes.
 
+The plugin is fully compatible with **Block Themes (FSE)**. It handles template loading correctly even when the theme does not have traditional PHP template files, ensuring that the "Coming Soon" content is rendered within the theme's header and footer.
+
 Logged-in users always see the real page regardless of the toggle.
 
 ## Toggling
