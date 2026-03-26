@@ -23,7 +23,7 @@ add_action( 'admin_init', function () {
 
 	foreach ( get_post_types( [ 'public' => true ] ) as $post_type ) {
 		$col_hook    = $post_type === 'page' ? 'manage_pages_columns' : "manage_{$post_type}_posts_columns";
-		$custom_hook = $post_type === 'page' ? 'manage_pages_custom_column' : "manage_{$post_type}_posts_custom_column";
+		$custom_hook = "manage_{$post_type}_posts_custom_column";
 
 		add_filter( $col_hook, function ( $columns ) {
 			$columns['fb_coming_soon'] = 'Coming Soon';

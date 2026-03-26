@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:  Flashblocks Coming Soon
- * Description:  Per-page coming soon toggle via post meta. Redirects to a coming-soon page when active.
+ * Description:  Per-page or site-wide coming soon toggle via post meta. Shows coming-soon content at the real URL or redirects, depending on the configured mode.
  * Version:      1.0.0
  * Requires at least: 6.7
  * Requires PHP: 7.4
