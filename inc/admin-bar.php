@@ -49,7 +49,7 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {
 
 	$wp_admin_bar->add_node( [
 		'id'    => 'fb-coming-soon',
-		'title' => '<span class="ab-icon dashicons-before dashicons-clock"></span><span class="ab-label">' . $label . '</span>',
+		'title' => ( $is_active ? '<span class="ab-icon dashicons-before dashicons-clock"></span>' : '' ) . '<span class="ab-label">' . $label . '</span>',
 		'href'  => $url,
 		'meta'  => [ 'class' => $is_active ? 'fb-cs-on' : 'fb-cs-off' ],
 	] );
