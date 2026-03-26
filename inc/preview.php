@@ -17,4 +17,9 @@ add_action( 'template_redirect', function () {
 		setcookie( 'fb_preview_mode', '1', time() + MONTH_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 		$_COOKIE['fb_preview_mode'] = '1';
 	}
+
+	if ( isset( $_GET['preview-off'] ) ) {
+		setcookie( 'fb_preview_mode', '', time() - HOUR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		unset( $_COOKIE['fb_preview_mode'] );
+	}
 }, 1 );

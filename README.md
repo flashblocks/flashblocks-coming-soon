@@ -28,7 +28,7 @@ Logged-in users always see the real page regardless of the toggle.
 
 ## Preview mode
 
-Add `?preview-on` to any URL to set a cookie (`fb_preview_mode`) that bypasses the coming-soon display for one month. Useful for sharing previews with clients without logging them in.
+Add `?preview-on` to any URL to set a cookie (`fb_preview_mode`) that bypasses the coming-soon display for one month. Add `?preview-off` to clear the cookie. Useful for sharing previews with clients without logging them in.
 
 ## Build
 
