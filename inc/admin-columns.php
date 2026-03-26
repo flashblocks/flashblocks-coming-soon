@@ -24,7 +24,9 @@ add_action( 'admin_init', function () {
 
 		add_action( $custom_hook, function ( $column, $post_id ) {
 			if ( $column === 'fb_coming_soon' ) {
-				echo get_post_meta( $post_id, FB_COMING_SOON_META, true ) === '1' ? '🔒 On' : '—';
+				echo get_post_meta( $post_id, FB_COMING_SOON_META, true ) === '1'
+					? '<span class="dashicons dashicons-clock" style="color:#d63638;" title="Coming Soon On"></span>'
+					: '—';
 			}
 		}, 10, 2 );
 	}

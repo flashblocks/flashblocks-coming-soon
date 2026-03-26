@@ -41,7 +41,6 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {
 	}
 
 	$label = $is_active ? 'Coming Soon On' : 'Coming Soon Off';
-	$icon  = $is_active ? 'dashicons-hidden' : 'dashicons-visibility';
 	$color = $is_active ? '#d63638' : '#72aee6';
 
 	// The toggle action depends on the current mode.
@@ -52,7 +51,7 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {
 
 	$wp_admin_bar->add_node( [
 		'id'    => 'fb-coming-soon',
-		'title' => '<span class="ab-icon dashicons-before ' . $icon . '" style="color:' . $color . '; margin-top: 2px !important;"></span><span class="ab-label">' . $label . '</span>',
+		'title' => '<span class="ab-icon dashicons-before dashicons-clock" style="color:' . $color . '; margin-top: 2px !important;"></span><span class="ab-label">' . $label . '</span>',
 		'href'  => $url,
 	] );
 }, 100 );
