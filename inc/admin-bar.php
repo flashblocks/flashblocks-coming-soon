@@ -64,8 +64,19 @@ add_action( 'wp_head', function () {
 	}
 	?>
 	<style>
-		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon { color: #d63638 !important; }
-		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-off .ab-icon { color: #72aee6 !important; }
+		#wpadminbar #wp-admin-bar-fb-coming-soon .ab-icon {
+			background-color: #3c434a;
+			border-radius: 50%;
+			width: 18px !important;
+			height: 18px !important;
+			line-height: 18px !important;
+			font-size: 13px !important;
+			text-align: center;
+			margin-top: 7px !important;
+			color: #fff !important;
+		}
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon { background-color: #d63638 !important; }
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-off .ab-icon { background-color: #72aee6 !important; }
 	</style>
 	<?php
 } );
@@ -73,8 +84,19 @@ add_action( 'wp_head', function () {
 add_action( 'admin_head', function () {
 	?>
 	<style>
-		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon { color: #d63638 !important; }
-		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-off .ab-icon { color: #72aee6 !important; }
+		#wpadminbar #wp-admin-bar-fb-coming-soon .ab-icon {
+			background-color: #3c434a;
+			border-radius: 50%;
+			width: 18px !important;
+			height: 18px !important;
+			line-height: 18px !important;
+			font-size: 13px !important;
+			text-align: center;
+			margin-top: 7px !important;
+			color: #fff !important;
+		}
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon { background-color: #d63638 !important; }
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-off .ab-icon { background-color: #72aee6 !important; }
 	</style>
 	<?php
 } );
