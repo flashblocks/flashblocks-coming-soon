@@ -199,11 +199,17 @@ add_action( 'admin_init', function () {
 
 // ---------------------------------------------------------------------------
 // One-time migration: comment_status 'open' → _fb_coming_soon = '1'
+// Trigger by visiting any admin page with ?fb_run_migration=1
+// e.g. /wp-admin/?fb_run_migration=1
 // ---------------------------------------------------------------------------
 
 add_action( 'admin_init', function () {
-	if ( get_option( '_fb_coming_soon_migrated' ) ) {
+	if ( ! isset( $_GET['fb_run_migration'] ) || ! current_user_can( 'manage_options' ) ) {
 		return;
+	}
+
+	if ( get_option( '_fb_coming_soon_migrated' ) ) {
+		wp_die( 'Migration already ran — nothing to do.' );
 	}
 
 	$posts = get_posts( [
@@ -223,4 +229,6 @@ add_action( 'admin_init', function () {
 	}
 
 	update_option( '_fb_coming_soon_migrated', true );
+
+	wp_die( 'Migration complete. ' . count( $posts ) . ' post(s) updated.' );
 } );
