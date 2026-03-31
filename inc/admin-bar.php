@@ -41,7 +41,7 @@ add_action('admin_bar_menu', function (WP_Admin_Bar $wp_admin_bar) {
 		$is_active = get_post_meta($post_id, FB_COMING_SOON_META, true) === '1';
 	}
 
-	$label = $is_active ? 'Coming Soon On' : 'Coming Soon Off';
+	$label = $is_active ? 'Coming Soon' : 'Live';
 
 	$url = wp_nonce_url(
 		admin_url('admin-post.php?action=fb_toggle_coming_soon&post_id=' . $post_id),
@@ -50,11 +50,11 @@ add_action('admin_bar_menu', function (WP_Admin_Bar $wp_admin_bar) {
 
 	$wp_admin_bar->add_node([
 		'id'    => 'fb-coming-soon',
-		'title' => ($is_active ? '<span class="ab-icon dashicons-before dashicons-clock"></span>' : '') . '<span class="ab-label">' . $label . '</span>',
+		'title' => '<span class="ab-icon dashicons-before dashicons-clock"></span><span class="ab-label">' . $label . '</span>',
 		'href'  => $url,
 		'meta'  => ['class' => $is_active ? 'fb-cs-on' : 'fb-cs-off'],
 	]);
-}, 100);
+}, 999);
 
 /**
  * Admin bar colors for Coming Soon toggle.
@@ -65,9 +65,16 @@ add_action('wp_head', function () {
 	}
 ?>
 	<style>
+		#wpadminbar #wp-admin-bar-fb-coming-soon .ab-icon:before {
+			top: 2px !important;
+		}
+
 		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon:before {
 			color: #d63638 !important;
-			top: 2px !important;
+		}
+
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-off .ab-icon:before {
+			color: #00a32a !important;
 		}
 	</style>
 <?php
@@ -76,9 +83,16 @@ add_action('wp_head', function () {
 add_action('admin_head', function () {
 ?>
 	<style>
+		#wpadminbar #wp-admin-bar-fb-coming-soon .ab-icon:before {
+			top: 2px !important;
+		}
+
 		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-on .ab-icon:before {
 			color: #d63638 !important;
-			top: 2px !important;
+		}
+
+		#wpadminbar #wp-admin-bar-fb-coming-soon.fb-cs-off .ab-icon:before {
+			color: #00a32a !important;
 		}
 	</style>
 <?php
