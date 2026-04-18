@@ -47,8 +47,16 @@ add_action( 'admin_notices', function () {
 
 	$count = (int) $_GET['fb_cs_updated'];
 	printf(
-		'<div class="notice notice-success is-dismissible"><p>Coming Soon updated for %d %s.</p></div>',
-		$count,
-		_n( 'item', 'items', $count )
+		'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+		sprintf(
+			/* translators: %d: number of items updated */
+			_n(
+				'Coming Soon updated for %d item.',
+				'Coming Soon updated for %d items.',
+				$count,
+				'flashblocks-coming-soon'
+			),
+			$count
+		)
 	);
 } );
